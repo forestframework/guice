@@ -25,6 +25,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.inject.Binding;
 import com.google.inject.Key;
+import com.google.inject.LookupInterceptor;
 import com.google.inject.Scope;
 import com.google.inject.TypeLiteral;
 import com.google.inject.spi.InjectionRequest;
@@ -66,11 +67,13 @@ final class InheritingState implements State {
   private final List<ModuleAnnotatedMethodScannerBinding> scannerBindings = Lists.newArrayList();
   private final WeakKeySet blacklistedKeys;
   private final Object lock;
+  private final LookupInterceptor lookupInterceptor;
 
-  InheritingState(State parent) {
+  InheritingState(LookupInterceptor interceptor, State parent) {
     this.parent = checkNotNull(parent, "parent");
     this.lock = (parent == State.NONE) ? this : parent.lock();
     this.blacklistedKeys = new WeakKeySet(lock);
+    this.lookupInterceptor = interceptor;
   }
 
   @Override
@@ -81,6 +84,12 @@ final class InheritingState implements State {
   @Override
   @SuppressWarnings("unchecked") // we only put in BindingImpls that match their key types
   public <T> BindingImpl<T> getExplicitBinding(Key<T> key) {
+    if (lookupInterceptor != null) {
+      T instance = lookupInterceptor.intercept(key);
+      if (instance != null) {
+        return new ForestHackyInstanceBindingImpl<>(key, instance);
+      }
+    }
     Binding<?> binding = explicitBindings.get(key);
     return binding != null ? (BindingImpl<T>) binding : parent.getExplicitBinding(key);
   }

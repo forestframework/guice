@@ -24,6 +24,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Binder;
 import com.google.inject.Injector;
 import com.google.inject.Key;
+import com.google.inject.LookupInterceptor;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -76,6 +77,7 @@ final class InjectorShell {
     private InjectorImpl parent;
     private InjectorOptions options;
     private Stage stage;
+    private LookupInterceptor lookupInterceptor;
 
     /** null unless this exists in a {@link Binder#newPrivateBinder private environment} */
     private PrivateElementsImpl privateElements;
@@ -85,9 +87,14 @@ final class InjectorShell {
       return this;
     }
 
+    Builder lookupInterceptor(LookupInterceptor interceptor) {
+      this.lookupInterceptor = interceptor;
+      return this;
+    }
+
     Builder parent(InjectorImpl parent) {
       this.parent = parent;
-      this.state = new InheritingState(parent.state);
+      this.state = new InheritingState(lookupInterceptor, parent.state);
       this.options = parent.options;
       this.stage = options.stage;
       return this;
@@ -205,7 +212,7 @@ final class InjectorShell {
 
     private State getState() {
       if (state == null) {
-        state = new InheritingState(State.NONE);
+        state = new InheritingState(lookupInterceptor, State.NONE);
       }
       return state;
     }
