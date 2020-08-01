@@ -25,18 +25,20 @@ See the Apache License Version 2.0 for the specific language governing permissio
 
   <packaging>pom</packaging>
 
-  <groupId>com.google.inject</groupId>
+  <groupId>io.forestframework</groupId>
   <artifactId>guice-parent</artifactId>
   <version>4.2.3</version>
 
-  <name>Google Guice</name>
+  <name>Google Guice - Forestframework fork</name>
 
   <description>
     Guice is a lightweight dependency injection framework for Java 6 and above
   </description>
 
-  <url>https://github.com/google/guice</url>
+  <url>https://github.com/forestframework/guice</url>
   <inceptionYear>2006</inceptionYear>
+
+
 
   <organization>
     <name>Google, Inc.</name>
@@ -61,19 +63,19 @@ See the Apache License Version 2.0 for the specific language governing permissio
   </mailingLists>
 
   <scm>
-    <connection>scm:git:git://github.com/google/guice.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/google/guice.git</developerConnection>
-    <url>https://github.com/google/guice</url>
+    <connection>scm:git:git://github.com/forestframework/guice.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/forestframework/guice.git</developerConnection>
+    <url>https://github.com/forestframework/guice</url>
   </scm>
 
   <issueManagement>
     <system>Github</system>
-    <url>https://github.com/google/guice/issues/</url>
+    <url>https://github.com/forestframework/guice/issues/</url>
   </issueManagement>
 
   <ciManagement>
     <system>Travis</system>
-    <url>https://travis-ci.org/google/guice</url>
+    <url>https://travis-ci.org/forestframework/guice</url>
   </ciManagement>
 
   <licenses>
@@ -87,11 +89,11 @@ See the Apache License Version 2.0 for the specific language governing permissio
   <distributionManagement>
     <!-- override the parent's directory to point to the canonical place, and use https. -->
     <repository>
-      <id>google-releases</id>
+      <id>maven-central-releases</id>
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
     <snapshotRepository>
-      <id>google-snapshots</id>
+      <id>maven-central-snapshots</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
   </distributionManagement>
@@ -342,7 +344,7 @@ See the Apache License Version 2.0 for the specific language governing permissio
               <module>com.google.inject</module>
               <_include>-${project.basedir}/build.properties</_include>
               <Bundle-Copyright>Copyright (C) 2006 Google Inc.</Bundle-Copyright>
-              <Bundle-DocURL>https://github.com/google/guice</Bundle-DocURL>
+              <Bundle-DocURL>https://github.com/forestframework/guice</Bundle-DocURL>
               <Bundle-Name>${project.artifactId}</Bundle-Name>
               <Bundle-SymbolicName>$(module)</Bundle-SymbolicName>
               <Bundle-RequiredExecutionEnvironment>JavaSE-1.6</Bundle-RequiredExecutionEnvironment>
