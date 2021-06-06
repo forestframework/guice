@@ -25,6 +25,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Binder;
 import com.google.inject.Injector;
 import com.google.inject.Key;
+import com.google.inject.LookupInterceptor;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -89,6 +90,7 @@ final class InjectorShell {
     private InjectorImpl parent;
     private InjectorOptions options;
     private Stage stage;
+    private LookupInterceptor lookupInterceptor;
 
     /** null unless this exists in a {@link Binder#newPrivateBinder private environment} */
     private PrivateElementsImpl privateElements;
@@ -98,10 +100,15 @@ final class InjectorShell {
       return this;
     }
 
+    Builder lookupInterceptor(LookupInterceptor interceptor) {
+      this.lookupInterceptor = interceptor;
+      return this;
+    }
+
     Builder parent(InjectorImpl parent) {
       this.parent = parent;
       this.jitBindingData = new InjectorJitBindingData(Optional.of(parent.getJitBindingData()));
-      this.bindingData = new InjectorBindingData(Optional.of(parent.getBindingData()));
+      this.bindingData = new InjectorBindingData(Optional.of(parent.getBindingData()), lookupInterceptor);
       this.options = parent.options;
       this.stage = options.stage;
       return this;
@@ -129,7 +136,7 @@ final class InjectorShell {
       // initialized with a parent injector by {@link #parent(InjectorImpl)}.
       if (bindingData == null) {
         jitBindingData = new InjectorJitBindingData(Optional.empty());
-        bindingData = new InjectorBindingData(Optional.empty());
+        bindingData = new InjectorBindingData(Optional.empty(), lookupInterceptor);
       }
       return jitBindingData.lock();
     }
@@ -232,7 +239,6 @@ final class InjectorShell {
 
       return injectorShells;
     }
-
   }
 
   /**

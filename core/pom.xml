@@ -4,9 +4,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.google.inject</groupId>
+    <groupId>io.forestframework</groupId>
     <artifactId>guice-parent</artifactId>
-    <version>5.0.1-SNAPSHOT</version>
+    <version>5.0.1.1</version>
   </parent>
 
   <artifactId>guice</artifactId>
@@ -14,6 +14,11 @@
   <name>Google Guice - Core Library</name>
 
   <dependencies>
+    <dependency>
+      <groupId>com.github.blindpirate</groupId>
+      <artifactId>annotation-magic</artifactId>
+      <version>0.2.5</version>
+    </dependency>
     <dependency>
       <groupId>javax.inject</groupId>
       <artifactId>javax.inject</artifactId>

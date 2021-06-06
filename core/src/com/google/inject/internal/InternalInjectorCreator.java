@@ -20,6 +20,7 @@ import com.google.common.base.Stopwatch;
 import com.google.inject.Binding;
 import com.google.inject.Injector;
 import com.google.inject.Key;
+import com.google.inject.LookupInterceptor;
 import com.google.inject.MembersInjector;
 import com.google.inject.Module;
 import com.google.inject.Provider;
@@ -31,6 +32,7 @@ import com.google.inject.spi.Dependency;
 import com.google.inject.spi.Element;
 import com.google.inject.spi.InjectionPoint;
 import com.google.inject.spi.TypeConverterBinding;
+
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -78,6 +80,11 @@ public final class InternalInjectorCreator {
 
   public InternalInjectorCreator stage(Stage stage) {
     shellBuilder.stage(stage);
+    return this;
+  }
+
+  public InternalInjectorCreator lookupInterceptor(LookupInterceptor interceptor) {
+    shellBuilder.lookupInterceptor(interceptor);
     return this;
   }
 

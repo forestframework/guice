@@ -4,15 +4,15 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.google.inject</groupId>
+    <groupId>io.forestframework</groupId>
     <artifactId>guice-parent</artifactId>
-    <version>5.0.1-SNAPSHOT</version>
+    <version>5.0.1.1</version>
   </parent>
 
   <packaging>pom</packaging>
 
-  <groupId>com.google.inject.extensions</groupId>
-  <artifactId>extensions-parent</artifactId>
+  <groupId>io.forestframework</groupId>
+  <artifactId>guice-extensions-parent</artifactId>
 
   <name>Google Guice - Extensions</name>
 
@@ -41,7 +41,7 @@
      | All extensions depend on the core
     -->
     <dependency>
-      <groupId>com.google.inject</groupId>
+      <groupId>io.forestframework</groupId>
       <artifactId>guice</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -49,7 +49,7 @@
      | Some extension tests depend on the core tests
     -->
     <dependency>
-      <groupId>com.google.inject</groupId>
+      <groupId>io.forestframework</groupId>
       <artifactId>guice</artifactId>
       <version>${project.version}</version>
       <classifier>tests</classifier>

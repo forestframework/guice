@@ -4,9 +4,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.google.inject.extensions</groupId>
-    <artifactId>extensions-parent</artifactId>
-    <version>5.0.1-SNAPSHOT</version>
+    <groupId>io.forestframework</groupId>
+    <artifactId>guice-extensions-parent</artifactId>
+    <version>5.0.1.1</version>
   </parent>
 
   <artifactId>guice-grapher</artifactId>
@@ -15,7 +15,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.google.inject.extensions</groupId>
+      <groupId>io.forestframework</groupId>
       <artifactId>guice-assistedinject</artifactId>
       <version>${project.version}</version>
     </dependency>

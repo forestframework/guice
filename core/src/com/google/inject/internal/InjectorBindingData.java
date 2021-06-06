@@ -25,6 +25,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.inject.Binding;
 import com.google.inject.Key;
+import com.google.inject.LookupInterceptor;
 import com.google.inject.Scope;
 import com.google.inject.TypeLiteral;
 import com.google.inject.spi.InjectionRequest;
@@ -69,12 +70,18 @@ class InjectorBindingData {
   private final List<TypeListenerBinding> typeListenerBindings = Lists.newArrayList();
   private final List<ProvisionListenerBinding> provisionListenerBindings = Lists.newArrayList();
   private final List<ModuleAnnotatedMethodScannerBinding> scannerBindings = Lists.newArrayList();
+  private final LookupInterceptor lookupInterceptor;
   // The injector's explicit bindings, indexed by the binding's type.
   private final ListMultimap<TypeLiteral<?>, Binding<?>> indexedExplicitBindings =
       ArrayListMultimap.create();
 
   InjectorBindingData(Optional<InjectorBindingData> parent) {
+    this(parent, null);
+  }
+
+  InjectorBindingData(Optional<InjectorBindingData> parent, LookupInterceptor interceptor) {
     this.parent = parent;
+    this.lookupInterceptor = interceptor;
   }
 
   public Optional<InjectorBindingData> parent() {
@@ -83,6 +90,12 @@ class InjectorBindingData {
 
   @SuppressWarnings("unchecked") // we only put in BindingImpls that match their key types
   public <T> BindingImpl<T> getExplicitBinding(Key<T> key) {
+    if (lookupInterceptor != null) {
+      T instance = lookupInterceptor.intercept(key);
+      if (instance != null) {
+        return new ForestHackyInstanceBindingImpl<>(key, instance);
+      }
+    }
     Binding<?> binding = explicitBindings.get(key);
     if (binding == null && parent.isPresent()) {
       return parent.get().getExplicitBinding(key);
